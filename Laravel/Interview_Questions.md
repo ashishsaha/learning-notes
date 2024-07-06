@@ -6,13 +6,15 @@ mutators.
 
 Setter Mutators:
 Setter mutators are used to modify attribute values before they are inserted or updated in the database. These mutators are named using the set{AttributeName}Attribute convention.
-`class YourModel extends Model
+```php
+class YourModel extends Model
 {
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = ucfirst($value); // Capitalize the first letter before storing in the database
     }
-}`
+}
+```
 
 In this example, every time you set the name attribute on the model, the setNameAttribute mutator will be called, and it will capitalize the first letter of the name before 
 saving it to the database.
