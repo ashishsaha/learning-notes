@@ -17,7 +17,7 @@ In this example, every time you set the name attribute on the model, the setName
 saving it to the database.
 
 
-#### What is the purpose of accessors in Eloquent models?
+## What is the purpose of accessors in Eloquent models?
 Accessors provide a way to customize the data returned from a model, allowing you to perform transformations, formatting, or any other logic before the attribute is accessed.
 
 **Accessor mutators** allow you to modify attribute values when they are retrieved from the database. These mutators are named using the get{AttributeName}Attribute convention.
@@ -46,7 +46,7 @@ The **$guarded** property in a Laravel Eloquent model serves a purpose similar t
 which attributes are allowed to be mass-assigned, the **$guarded** property is used to specify which attributes should not be mass-assigned.
 
 
-#### How to implement soft delete in Laravel?
+## How to implement soft delete in Laravel?
 
 Soft deletes in Laravel allow you to "delete" a record from the database without actually removing it. Instead, a timestamp is set to mark the record as "deleted," and it remains 
 in the database, providing a way to recover or view deleted records if needed. 
