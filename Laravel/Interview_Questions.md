@@ -192,6 +192,75 @@ Migrations in Laravel provide a way to manage database schema changes in a versi
 support rollback, and automate database updates during deployment.
 
 
+## What is Eloquent models and how it interact with database tables?
+Eloquent is Laravel's Object-Relational Mapping (ORM) system, which provides a straightforward and elegant way to interact with database tables. Each database table has a corresponding 
+"Model" that is used to interact with that table. Models allow you to query for data in your tables, as well as insert new records into the tables.
+###### Key Features of Eloquent
+**Active Record Implementation:**
+Eloquent models are based on the Active Record pattern, where each model instance directly corresponds to a single row in a database table.
+**Intuitive API:**
+Eloquent provides a clean, fluent API for interacting with your database, making it easy to perform common tasks such as querying, inserting, updating, and deleting records.
+**Relationships**:
+Eloquent makes it easy to define and manage relationships between different tables (e.g., one-to-one, one-to-many, many-to-many, etc.).
+**Timestamps**:
+Eloquent automatically manages created_at and updated_at timestamps for records.
+**Query Builder Integration:**
+Eloquent integrates seamlessly with Laravel's query builder, allowing for complex queries using a fluent interface.
+###### Interacting with Database Tables
+**Retrieving Data**
+```php
+$users = User::all();
+$user = User::find(1);
+$users = User::where('status', 'active')->get();
+$users = User::with('posts')->get();
+```
+
+**Inserting Data**
+```php
+$user = new User;
+$user->name = 'John Doe';
+$user->email = 'john@example.com';
+$user->password = bcrypt('password');
+$user->save();
+
+User::create([
+    'name' => 'Jane Doe',
+    'email' => 'jane@example.com',
+    'password' => bcrypt('password')
+]);
+```
+**Deleting Data**
+```php
+$user = User::find(1);
+$user->delete();
+```
+
+**Defining Relationships**
+**One-to-One:**
+```php
+public function phone()
+{
+    return $this->hasOne(Phone::class);
+}
+```
+**One-to-Many:**
+```php
+public function posts()
+{
+    return $this->hasMany(Post::class);
+}
+```
+**Many-to-Many:**
+```php
+public function roles()
+{
+    return $this->belongsToMany(Role::class);
+}
+```
+
+**Summary**
+Eloquent models in Laravel provide an intuitive and powerful way to interact with database tables. They follow the Active Record pattern, allowing each model instance to correspond to a row in the database. Eloquent makes it easy to perform CRUD operations, manage relationships, and query data using a fluent and expressive syntax.
+
 ## How Eager loading works?
 Eager loading in Eloquent is a performance optimization technique that helps to reduce the number of database queries when retrieving related models. By default, Eloquent uses 
 **lazy loading**, which means related models are only loaded from the database when accessed. However, lazy loading can lead to the **N+1 query problem**, where additional 
