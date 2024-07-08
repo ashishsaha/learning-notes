@@ -1,3 +1,91 @@
+## How Laravel Request Life cycle works
+Imagine a simple web application where a user requests to view a list of products by visiting the /products URL.
+ 
+**Request Entry:**
+The user enters http://example.com/products in their browser.
+The request hits the public/index.php file.
+ 
+**HTTP Kernel:**
+The index.php file creates an instance of the HTTP kernel (App\Http\Kernel).
+The kernel handles the request and begins the process.
+ ```php
+// public/index.php
+require __DIR__.'/../vendor/autoload.php';
+$app = require_once __DIR__.'/../bootstrap/app.php';
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+$response = $kernel->handle(
+ $request = Illuminate\Http\Request::capture()
+);
+$response->send();
+$kernel->terminate($request, $response);
+```
+
+**Service Providers:**
+The kernel bootstraps the application by loading service providers.
+Service providers bind services into the service container and perform bootstrapping tasks.
+ ```php
+// config/app.php
+'providers' => [
+    // List of service providers
+    App\Providers\RouteServiceProvider::class,
+],
+```
+
+**Middleware**
+The request passes through global and route-specific middleware.
+Middleware can perform tasks such as checking for authenticated users or logging.
+ ```php
+// app/Http/Middleware/CheckForMaintenanceMode.php
+public function handle($request, Closure $next)
+{
+    if ($this->app->isDownForMaintenance()) {
+        throw new HttpException(503);
+    }
+
+    return $next($request);
+}
+```
+
+**Routing**
+The router determines the appropriate route and controller action for the /products URL.
+The route is defined in routes/web.php.
+ ```php
+// routes/web.php
+Route::get('/products', [ProductController::class, 'index']);
+```
+**Controller**
+The ProductController@index method is invoked to handle the request.
+
+**Response Preparation:**
+The controller method prepares the response by fetching the data and passing it to a view.
+The response is then modified by middleware if necessary.
+
+**Response Sending:**
+The HTTP kernel sends the response back to the client.
+ ```php
+$response->send();
+```
+**Termination**
+After the response is sent, the kernel’s terminate method is called for any post-response tasks, such as logging the request duration.
+ ```php
+$kernel->terminate($request, $response);
+```
+#### Summary of the Example
+**Request Entry**: User requests http://example.com/products.
+**HTTP Kernel**: public/index.php handles the request.
+**Service Providers**: Loaded and bootstrapped.
+**Middleware**: Request passes through middleware (e.g., maintenance mode check).
+**Routing**: /products route matched to ProductController@index.
+**Controller**: ProductController@index fetches products and returns the view.
+**Response Preparation**: View rendered with product data.
+**Response Sending**: Response sent to client.
+**Termination**: Post-response tasks executed (e.g., logging).
+
+
+## What is the purpose of the $guarded and $fillable property in a model?
+The **$guarded** property in a Laravel Eloquent model serves a purpose similar to **$fillable** but with an opposite effect. While the **$fillable** property is used to specify 
+which attributes are allowed to be mass-assigned, the **$guarded** property is used to specify which attributes should not be mass-assigned.
+
 
 ## What is a mutator in Laravel models?
 In Laravel, mutators are special methods defined in Eloquent models that allow you to modify the values of attributes before they are actually stored in the database. Mutators 
@@ -41,13 +129,7 @@ public function getTotalPriceAttribute()
 ```
 
 
-## What is the purpose of the $guarded and $fillable property in a model?
-The **$guarded** property in a Laravel Eloquent model serves a purpose similar to **$fillable** but with an opposite effect. While the **$fillable** property is used to specify 
-which attributes are allowed to be mass-assigned, the **$guarded** property is used to specify which attributes should not be mass-assigned.
-
-
 ## How to implement soft delete in Laravel?
-
 Soft deletes in Laravel allow you to "delete" a record from the database without actually removing it. Instead, a timestamp is set to mark the record as "deleted," and it remains 
 in the database, providing a way to recover or view deleted records if needed. 
 
@@ -77,6 +159,37 @@ class YourModel extends Model
 You can retrieve soft deleted records using the withTrashed() method or onlyTrashed() method.
 **Force Deleting and Restoring**
 To permanently remove a soft-deleted record, you can use the forceDelete() method.
+
+
+## Migration in laravel and why it is necessary?
+**What is Migration?**
+A migration in Laravel is a way to manage database schema changes in a structured and version-controlled manner. Migrations allow developers to define and modify database tables 
+using PHP code rather than raw SQL. This helps in keeping track of changes, making it easier to collaborate and deploy database changes.
+
+###### Why is Migration Necessary?
+**Version Control for Database:**
+Migrations provide a way to version control your database schema, similar to how you version control your codebase. This ensures that all team members and deployment environments are using the same database structure.
+**Ease of Collaboration:**
+When working in a team, migrations allow each developer to apply the same database schema changes without having to manually write SQL scripts. This reduces the chance of errors and inconsistencies.
+**Database Agnosticism:**
+Migrations are written in PHP, making your schema definitions database-agnostic. Laravel can translate the migration code into the appropriate SQL for different database systems (e.g., MySQL, PostgreSQL, SQLite).
+**Rollback Support:**
+Migrations allow you to rollback changes. If you make a mistake, you can easily revert to the previous state without manual intervention.
+**Automation in Deployment:**
+Migrations can be automated in deployment scripts to ensure that the database schema is updated automatically when new code is deployed.
+
+###### About:
+**up Method**: Defines the changes to apply to the database (e.g., creating a table).
+**down Method**: Defines how to revert the changes (e.g., dropping the table).
+###### Running Migrations
+```php
+php artisan make:migration create_products_table
+php artisan migrate
+php artisan migrate:rollback
+```
+**Summary**
+Migrations in Laravel provide a way to manage database schema changes in a version-controlled and automated manner. They are necessary to ensure consistency, ease collaboration, 
+support rollback, and automate database updates during deployment.
 
 
 ## How Eager loading works?
@@ -126,6 +239,4 @@ Now, you can use this query scope in your code like this:
 ```php
 $publishedPosts = Post::published()->get();
 ```
-
-
 
