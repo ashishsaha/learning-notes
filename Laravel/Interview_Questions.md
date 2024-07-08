@@ -370,3 +370,23 @@ Now, you can use this query scope in your code like this:
 $publishedPosts = Post::published()->get();
 ```
 
+
+## Different types of HTTP status code responses in Laravel
+#### 200 Series: Success Responses
+
+**200 OK: The request has succeeded.**
+**201 Created:** The request has been fulfilled and a new resource has been created.
+**204 No Content:** The server successfully processed the request, but is not returning any content.
+
+**300 Series: Redirection Messages**
+**301 Moved Permanently:** The URL of the requested resource has been changed permanently.
+**302 Found:** The URL of the requested resource has been changed temporarily.
+
+**400 Bad Request: The server cannot or will not process the request due to a client error (e.g., malformed request syntax).**
+**401 Unauthorized:** The request requires user authentication.
+**403 Forbidden:** The server understood the request but refuses to authorize it.
+**404 Not Found:** The server cannot find the requested resource
+**422 Method Not Allowed:** The request method is known by the server but has been disabled and cannot be used.
+
+**500 Series: Server Error Responses**
+These status codes indicate that the server failed to fulfill a valid request.
