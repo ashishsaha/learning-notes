@@ -238,6 +238,7 @@ $user->delete();
 **Defining Relationships**
 **One-to-One:**
 ```php
+//If a User has one Profile, you would use hasOne
 public function phone()
 {
     return $this->hasOne(Phone::class);
@@ -245,9 +246,21 @@ public function phone()
 ```
 **One-to-Many:**
 ```php
+// If a Post has many Comments, you would use hasMany.
 public function posts()
 {
     return $this->hasMany(Post::class);
+}
+```
+**belongsTo**: 
+```php
+// If a Comment belongs to a Post, you would use belongsTo.
+class Comment extends Model
+{
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
 }
 ```
 **Many-to-Many:**
@@ -257,7 +270,55 @@ public function roles()
     return $this->belongsToMany(Role::class);
 }
 ```
+**belongsToMany**
+```php
+// If User can have many Roles, and a Role can belong to many Users, you would use belongsToMany
+class User extends Model
+{
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+}
 
+class Role extends Model
+{
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+}
+```
+**morphTo / morphMany:**
+There are two main types of polymorphic relationships in Eloquent: morph-to-one and morph-to-many.
+```php
+// Example: If both Comment and Post models can be "liked," you would use morphTo and morphMany.
+class Like extends Model
+{
+    public function likeable()
+    {
+        return $this->morphTo();
+    }
+}
+
+
+class Comment extends Model
+{
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+}
+
+
+class Post extends Model
+{
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+}
+```
 **Summary**
 Eloquent models in Laravel provide an intuitive and powerful way to interact with database tables. They follow the Active Record pattern, allowing each model instance to correspond to a row in the database. Eloquent makes it easy to perform CRUD operations, manage relationships, and query data using a fluent and expressive syntax.
 
