@@ -178,16 +178,16 @@ Migrations allow you to rollback changes. If you make a mistake, you can easily 
 **Automation in Deployment:**  
 Migrations can be automated in deployment scripts to ensure that the database schema is updated automatically when new code is deployed.  
 
-###### About:
+#### About:  
 **up Method**: Defines the changes to apply to the database (e.g., creating a table).  
 **down Method**: Defines how to revert the changes (e.g., dropping the table).  
-###### Running Migrations 
+#### Running Migrations 
 ```php
 php artisan make:migration create_products_table
 php artisan migrate
 php artisan migrate:rollback
 ```
-**Summary**
+**Summary**  
 Migrations in Laravel provide a way to manage database schema changes in a version-controlled and automated manner. They are necessary to ensure consistency, ease collaboration, 
 support rollback, and automate database updates during deployment.
 
@@ -369,6 +369,72 @@ Now, you can use this query scope in your code like this:
 ```php
 $publishedPosts = Post::published()->get();
 ```
+
+
+## How to use the updateOrInsert() method in Laravel Query
+Developers use the ‘updateOrInsert()’ function for updating existing records in the database for matching conditions or creating one if there is no existing matching record. The return type is usually Boolean.  
+**Syntax**  
+```php
+DB::table('table_name')->updateOrInsert(
+    ['column1' => 'value1', 'column2' => 'value2'], // Conditions to check for existing record
+    ['column3' => 'value3', 'column4' => 'value4']  // Values to update or insert
+);
+```
+**Example**  
+```php
+use Illuminate\Support\Facades\DB;
+
+DB::table('products')->updateOrInsert(
+    ['sku' => '12345', 'store_id' => 1],  // Conditions to check
+    ['name' => 'New Product Name', 'price' => 99.99]  // Values to update or insert
+);
+
+use App\Models\User;
+
+User::updateOrCreate(
+    ['email' => 'john@example.com'],  // Conditions to check
+    ['name' => 'John Doe']  // Values to update or insert
+);
+```
+
+
+## Create a middleware in Laravel that checks for a specific HTTP header?
+**Create the Middleware:**  
+You can create a middleware using the artisan command.
+```php
+php artisan make:middleware CheckHeader
+```
+**Implement the Middleware:**  
+Open the newly created middleware file located in app/Http/Middleware/CheckHeader.php and implement the logic to check for the specific HTTP header.
+```php
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class CheckHeader
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle(Request $request, Closure $next)
+    {
+        // Check for the specific header
+        if (!$request->hasHeader('X-Special-Header')) {
+            return response()->json(['error' => 'X-Special-Header not found'], Response::HTTP_FORBIDDEN);
+        }
+
+        return $next($request);
+    }
+}
+```
+**Register the Middleware:**  
+Register the middleware in app/Http/Kernel.php. 
 
 
 ## Different types of HTTP status code responses in Laravel
@@ -630,8 +696,8 @@ php artisan db:seed --class=UsersTableSeeder
 
 # Security
 ## How to ensure Laravel project security?
-Ensuring the security of a Laravel project involves implementing several best practices and utilizing built-in Laravel features. Here are some key strategies:
-**Use Latest Laravel Version**
+Ensuring the security of a Laravel project involves implementing several best practices and utilizing built-in Laravel features. Here are some key strategies:  
+**Use Latest Laravel Version**  
 Always use the latest stable version of Laravel to benefit from the latest security patches and features.  
 **Secure Environment Variables**  
 Store sensitive configuration values in the .env file.    
@@ -703,18 +769,18 @@ use Illuminate\Support\Facades\Crypt;
 $encrypted = Crypt::encryptString('Sensitive data');
 $decrypted = Crypt::decryptString($encrypted);
 ```
-**Use Security Headers**
+**Use Security Headers**  
 Use headers like **Content-Security-Policy**, **X-Content-Type-Options**, **X-Frame-Options**, and **X-XSS-Protection**.
 ```php
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: DENY');
 header('X-XSS-Protection: 1; mode=block'); 
 ```
-**14. Regular Security Audits**
+**14. Regular Security Audits**  
 Conduct regular security audits and penetration testing.  
 Use tools like **Laravel Telescope** for monitoring.  
 
-**Summary**  
+**Summary**                 
 **Update:** Always use the latest version of Laravel.  
 **Environment**: Secure .env file and use HTTPS.  
 **CSRF/XSS**: Protect against CSRF and XSS attacks.  
@@ -727,3 +793,94 @@ Use tools like **Laravel Telescope** for monitoring.
 **Encryption**: Encrypt sensitive data.  
 **Security Headers**: Use security headers.  
 **Audits**: Conduct regular security audits.
+
+
+## HOW CSRF token works in laravel?
+CSRF (Cross-Site Request Forgery) protection in Laravel is implemented using a token that helps verify that the authenticated user is the one actually making the requests to the application. Here's a short explanation of how CSRF tokens work in Laravel:
+### How CSRF Tokens Work
+**Token Generation:**  
+When a user first accesses a page that contains a form, Laravel automatically generates a unique CSRF token for that user session.  
+This token is stored in the user's session data.  
+**Including the Token in Forms:**  
+Laravel includes the CSRF token as a hidden field in every form generated by the Blade template engine.  
+You include this token in your forms using the **@csrf** directive in Blade
+```php
+<form method="POST" action="/submit">
+    @csrf
+    <!-- Form fields -->
+</form>
+```
+**Token Validation:**  
+When the form is submitted, the CSRF token is sent along with the form data.  
+Laravel automatically checks the submitted token against the token stored in the session.  
+If the tokens match, the request is considered legitimate, and the request is processed.  
+If the tokens do not match, Laravel throws a TokenMismatchException, and the request is rejected.  
+
+So, even if a user is not logged in, as long as they have a session (which Laravel creates for every visitor), the CSRF token can be compared during form submission or AJAX requests to ensure the request's validity. This mechanism helps protect against CSRF attacks by verifying that the request originates from the same user who initiated the session.
+
+
+## Laravel session management
+Laravel manages sessions in a variety of ways, providing a consistent API regardless of the underlying storage mechanism. Here’s a brief overview of how Laravel handles sessions:  
+**Session Configuration**  
+The session configuration is located in the config/session.php file. Here, you can specify the session driver, lifetime, encryption, and other settings.  
+**Session Drivers**  
+Laravel supports several session drivers:  
+**file**: Stores session data in files (default). Sessions are stored in files in the **storage/framework/sessions** directory.   
+**cookie**: Stores session data in secure, encrypted cookies.  
+**database**: Stores session data in a database table.  
+**memcached/redis**: Stores session data in a cache store.  
+**dynamodb**: Stores session data in Amazon DynamoDB.  
+**array**: Stores session data in a PHP array, used for testing (not persistent).
+
+**Using Sessions**    
+You can interact with the session in your controllers and other parts of your application using the Session facade or the request helper.
+```php
+// Storing Data in Session:
+use Illuminate\Support\Facades\Session;
+
+// Using the Session facade
+Session::put('key', 'value');
+
+// Using the request helper
+$request->session()->put('key', 'value');
+
+// Retrieving Data from Session:
+$value = Session::get('key');
+$value = $request->session()->get('key');
+
+// Checking if Session Key Exists:
+if (Session::has('key')) {
+    // Key exists
+}
+
+if ($request->session()->has('key')) {
+    // Key exists
+}
+   
+// Removing Data from Session:
+Session::forget('key');
+$request->session()->forget('key');
+   
+// Retrieving and Deleting Data:
+$value = Session::pull('key');
+$value = $request->session()->pull('key');
+```
+**Session Lifetime**  
+The session lifetime can be configured in the config/session.php file:
+```php
+// This value represents the number of minutes that the session should be allowed to remain idle before it expires.
+'lifetime' => 120,
+```
+
+
+## Explain throttling and how to implement it in Laravel
+In Laravel, throttling is a perfect approach for rate-limiting requests from specific IPs and is also capable enough to prevent DDOS attacks. The framework also provides a middleware that is compatible with not just routes but global middleware as well. Developers can configure throttling following the steps.  
+**Implementing Throttling in Laravel**  
+```php
+Route::middleware('throttle:60,1')->group(function () {
+    Route::get('/profile', 'UserProfileController@show');
+    Route::post('/update-profile', 'UserProfileController@update');
+});
+```
+In this example, the throttle middleware is being applied to the /user endpoint and is set to allow 60 requests per minute (60,1). This means that if a client makes more than 60 requests to this endpoint within a minute, they will be blocked for a period of time before being allowed to make further requests.
+
