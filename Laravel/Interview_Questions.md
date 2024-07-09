@@ -1,4 +1,4 @@
-#Basic
+# Basic
 ## How Laravel Request Life cycle works
 Imagine a simple web application where a user requests to view a list of products by visiting the /products URL.
  
@@ -348,7 +348,7 @@ php artisan db:seed --class=UsersTableSeeder
 **Factories and seeders** together allow you to easily set up and manage your application's data, making development and testing more efficient.
 
 
-#Database
+# Database
 ## Migration in laravel and why it is necessary?
 **What is Migration?**  
 A migration in Laravel is a way to manage database schema changes in a structured and version-controlled manner. Migrations allow developers to define and modify database tables 
@@ -684,7 +684,8 @@ If the tokens do not match, Laravel throws a TokenMismatchException, and the req
 
 So, even if a user is not logged in, as long as they have a session (which Laravel creates for every visitor), the CSRF token can be compared during form submission or AJAX requests to ensure the request's validity. This mechanism helps protect against CSRF attacks by verifying that the request originates from the same user who initiated the session.
 
-#API
+
+# API
 ## How can secure an API endpoint in Laravel
 Securing an API endpoint in Laravel involves several practices, including authentication, authorization, rate limiting, input validation, and encryption. Here’s a step-by-step guide to securing your API endpoints:  
 
@@ -752,7 +753,8 @@ To secure an API endpoint in Laravel:
 **Logging and Monitoring**: Keep logs and monitor for unusual activity.  
 Implementing these practices will help ensure your Laravel API is secure and robust.  
 
-#Advance
+
+# Advance
 ## How to use the updateOrInsert() method in Laravel Query
 Developers use the ‘updateOrInsert()’ function for updating existing records in the database for matching conditions or creating one if there is no existing matching record. The return type is usually Boolean.  
 **Syntax**  
