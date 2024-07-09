@@ -10,4 +10,4 @@
 - [Eloquent models](./Interview_Questions.md#what-is-eloquent-models-and-how-it-interact-with-database-tables)
 - [Eager loading works](./Interview_Questions.md#how-eager-loading-works)
 - [Query scopes in Laravel ](./Interview_Questions.md#what-are-query-scopes-in-laravel-models)
-- [Query scopes in Laravel ](./Interview_Questions.md#what-are-query-scopes-in-laravel-models)
+- [Service provider and container](./Interview_Questions.md#laravel-service-provider-and-service-container-and-how-it-does-work-together)
