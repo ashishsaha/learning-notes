@@ -11,3 +11,6 @@
 - [Eager loading works](./Interview_Questions.md#how-eager-loading-works)
 - [Query scopes in Laravel ](./Interview_Questions.md#what-are-query-scopes-in-laravel-models)
 - [Service provider and container](./Interview_Questions.md#laravel-service-provider-and-service-container-and-how-it-does-work-together)
+- [Faster Loading laravel project](./Interview_Questions.md#how-to-ensure-faster-loading-of-laravel-project)
+- [Factories and seeder](./Interview_Questions.md#factories-and-seeder-in-laravel)
+- [Laravel project security ensure](./Interview_Questions.md#how-to-ensure-laravel-project-security)
