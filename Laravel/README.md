@@ -17,6 +17,8 @@
 #### Security
 - [Laravel project security ensure](./Interview_Questions.md#how-to-ensure-laravel-project-security)
 - [HOW CSRF token works in laravel](./Interview_Questions.md#how-CSRF-token-works-in-laravel)
+#### Testing
+- [Telescope](./Interview_Questions.md#how-to-use-laravel-telescope)
 #### API
 - [How can secure an API endpoint in Laravel](./Interview_Questions.md#how-can-secure-an-API-endpoint-in-laravel)
 #### Advance

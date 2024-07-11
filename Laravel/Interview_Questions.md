@@ -753,6 +753,54 @@ To secure an API endpoint in Laravel:
 **Logging and Monitoring**: Keep logs and monitor for unusual activity.  
 Implementing these practices will help ensure your Laravel API is secure and robust.  
 
+# Testing 
+## How to use laravel telescope
+**Laravel Telescope** is a debugging and monitoring tool for Laravel applications. It provides insights into various aspects of your application, such as requests, exceptions, database queries, jobs, and more.  
+#### Key Features 
+**Request Monitoring**: Tracks HTTP requests, showing headers, payloads, and responses.  
+**Exception Tracking**: Captures exceptions with stack traces.  
+**Database Queries**: Logs all executed queries, their bindings, and execution times.  
+**Job Monitoring**: Monitors queued jobs, their status, and execution details.  
+**Scheduled Tasks**: Tracks scheduled tasks and their outcomes.  
+**Cache Operations**: Logs cache hits, misses, and operations.  
+**Log Monitoring**: Aggregates application logs for easy analysis.  
+**Events and Listeners**: Monitors events and their listeners.  
+**Mail:** Logs sent emails.  
+**Notifications:** Tracks notifications sent via various channels.
+#### Installation and Setup
+```php
+// Install via Composer:
+composer require laravel/telescope
+// Publish Resources:
+php artisan telescope:install
+// Run Migrations:
+php artisan migrate
+// Configure Telescope:
+// Configuration file: config/telescope.php   
+// Example for restricting access:
+'middleware' => [
+    'web',
+    'auth',
+    EnsureUserIsAdmin::class,
+],
+// Access Dashboard:
+Navigate to /telescope (e.g., http://your-app.test/telescope)
+```
+### Benefits for Debugging and Monitoring
+**Detailed Insights**: Comprehensive details about app activities for quick issue identification.  
+**Real-time Monitoring**: Live tracking of requests, queries, jobs, etc.  
+**Centralized Logging**: Aggregated logs and data in one place.  
+**Performance Optimization**: Identify and fix performance bottlenecks.  
+**Error Tracking**: Detailed exception tracking for faster debugging.  
+**Access Control**: Restrict access to authorized users.  
+### Example Usage
+**View Requests:** See details of incoming HTTP requests.  
+**Track Exceptions**: View exceptions with stack traces.  
+**Analyze Queries**: Inspect executed queries and optimize slow ones.  
+**Monitor Jobs**: Check the status and details of queued jobs.  
+### Summary
+Laravel Telescope helps developers debug and monitor applications efficiently by providing real-time insights into various activities, thus ensuring smooth and secure application performance.
+
 
 # Advance
 ## How to use the updateOrInsert() method in Laravel Query
