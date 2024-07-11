@@ -9,6 +9,7 @@
 - [Soft delete in Laravel](./Interview_Questions.md#how-to-implement-soft-delete-in-laravel)
 - [Service provider and container](./Interview_Questions.md#laravel-service-provider-and-service-container-and-how-it-does-work-together)
 - [Factories and seeder](./Interview_Questions.md#factories-and-seeder-in-laravel)
+- [Laravel facades and their role](./Interview_Questions.md#explain-laravel-facades-and-their-role)
 #### Database
 - [Migration in laravel](./Interview_Questions.md#migration-in-laravel-and-why-it-is-necessary)
 - [Eloquent models](./Interview_Questions.md#what-is-eloquent-models-and-how-it-interact-with-database-tables)

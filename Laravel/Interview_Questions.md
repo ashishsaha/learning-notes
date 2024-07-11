@@ -1,12 +1,10 @@
 # Basic
 ## How Laravel Request Life cycle works
 Imagine a simple web application where a user requests to view a list of products by visiting the /products URL.
- 
-**Request Entry:**  
+### Request Entry 
 The user enters http://example.com/products in their browser.  
 The request hits the public/index.php file.
- 
-**HTTP Kernel:**  
+### HTTP Kernel  
 The index.php file creates an instance of the HTTP kernel (App\Http\Kernel).  
 The kernel handles the request and begins the process.
  ```php
@@ -20,8 +18,7 @@ $response = $kernel->handle(
 $response->send();
 $kernel->terminate($request, $response);
 ```
-
-**Service Providers:**  
+### Service Providers
 The kernel bootstraps the application by loading service providers.  
 Service providers bind services into the service container and perform bootstrapping tasks.  
  ```php
@@ -31,8 +28,7 @@ Service providers bind services into the service container and perform bootstrap
     App\Providers\RouteServiceProvider::class,
 ],
 ```
-
-**Middleware**  
+### Middleware 
 The request passes through global and route-specific middleware.  
 Middleware can perform tasks such as checking for authenticated users or logging.  
  ```php
@@ -46,32 +42,29 @@ public function handle($request, Closure $next)
     return $next($request);
 }
 ```
-
-**Routing**  
+### Routing
 The router determines the appropriate route and controller action for the /products URL.  
 The route is defined in routes/web.php.  
  ```php
 // routes/web.php
 Route::get('/products', [ProductController::class, 'index']);
 ```
-**Controller**  
+### Controller  
 The ProductController@index method is invoked to handle the request.  
-
-**Response Preparation:**  
+### Response Preparation:  
 The controller method prepares the response by fetching the data and passing it to a view.  
 The response is then modified by middleware if necessary.  
-
-**Response Sending:**  
+### Response Sending:  
 The HTTP kernel sends the response back to the client.  
  ```php
 $response->send();
 ```
-**Termination**  
+### Termination 
 After the response is sent, the kernel’s terminate method is called for any post-response tasks, such as logging the request duration.  
  ```php
 $kernel->terminate($request, $response);
 ```
-#### Summary of the Example
+### Summary of the Example
 **Request Entry**: User requests http://example.com/products.  
 **HTTP Kernel**: public/index.php handles the request.  
 **Service Providers**: Loaded and bootstrapped.  
@@ -346,6 +339,25 @@ php artisan db:seed --class=UsersTableSeeder
 - Define the data to insert in the seeder file.  
 - Run seeders with php artisan db:seed --class=UsersTableSeeder or php artisan db:seed.  
 **Factories and seeders** together allow you to easily set up and manage your application's data, making development and testing more efficient.
+
+
+## Explain Laravel facades and their role
+**Laravel facades** provide a static interface to classes that are available in the service container. Facades offer a convenient way to access Laravel services without needing to inject them into your classes manually.  
+It provides a convenient way to access services like **Cache, Queue, DB, Log**, etc., with simple syntax.
+### How They Work
+Alias Registration: Facades are registered in config/app.php under the aliases array.
+Underlying Class: Each facade maps to an underlying class or service provider.
+Service Container: The facade resolves instances from the service container, ensuring proper dependency management.
+### Example Usage
+```php
+// Example Usage
+// Without Facade:
+use Illuminate\Support\Facades\Cache;
+$cache = app('cache');
+$cache->put('key', 'value', 600);
+// With Facade:
+Cache::put('key', 'value', 600);
+```
 
 
 # Database
@@ -756,7 +768,7 @@ Implementing these practices will help ensure your Laravel API is secure and rob
 # Testing 
 ## How to use laravel telescope
 **Laravel Telescope** is a debugging and monitoring tool for Laravel applications. It provides insights into various aspects of your application, such as requests, exceptions, database queries, jobs, and more.  
-#### Key Features 
+### Key Features 
 **Request Monitoring**: Tracks HTTP requests, showing headers, payloads, and responses.  
 **Exception Tracking**: Captures exceptions with stack traces.  
 **Database Queries**: Logs all executed queries, their bindings, and execution times.  
@@ -767,7 +779,7 @@ Implementing these practices will help ensure your Laravel API is secure and rob
 **Events and Listeners**: Monitors events and their listeners.  
 **Mail:** Logs sent emails.  
 **Notifications:** Tracks notifications sent via various channels.
-#### Installation and Setup
+### Installation and Setup
 ```php
 // Install via Composer:
 composer require laravel/telescope
