@@ -345,12 +345,11 @@ php artisan db:seed --class=UsersTableSeeder
 **Laravel facades** provide a static interface to classes that are available in the service container. Facades offer a convenient way to access Laravel services without needing to inject them into your classes manually.  
 It provides a convenient way to access services like **Cache, Queue, DB, Log**, etc., with simple syntax.
 ### How They Work
-Alias Registration: Facades are registered in config/app.php under the aliases array.
-Underlying Class: Each facade maps to an underlying class or service provider.
-Service Container: The facade resolves instances from the service container, ensuring proper dependency management.
+**Alias Registration:** Facades are registered in config/app.php under the aliases array.  
+**Underlying Class:** Each facade maps to an underlying class or service provider.  
+**Service Container:** The facade resolves instances from the service container, ensuring proper dependency management.
 ### Example Usage
 ```php
-// Example Usage
 // Without Facade:
 use Illuminate\Support\Facades\Cache;
 $cache = app('cache');
