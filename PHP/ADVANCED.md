@@ -94,7 +94,7 @@ Secure access using middleware that resolves the tenant from domain or user cont
 ### What it's testing:
 Memory, resource limits, and asynchronous processing.
 ### Best Practices:
-Adjust php.ini: increase upload_max_filesize, post_max_size, and max_execution_time.
-Upload in chunks using JS libraries (e.g., Dropzone, tus.io).
-Store files in cloud (S3) via direct upload or using presigned URLs.
+Adjust php.ini: increase upload_max_filesize, post_max_size, and max_execution_time. 
+Upload in chunks using JS libraries (e.g., Dropzone, tus.io). 
+Store files in cloud (S3) via direct upload or using presigned URLs. 
 Process uploaded files asynchronously via queues.
